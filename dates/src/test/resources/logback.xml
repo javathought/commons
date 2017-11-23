@@ -1,0 +1,26 @@
+<configuration scan="true" scanPeriod="30 seconds">
+
+    <!-- #######################################################################
+                           Configuration des Appender
+    ####################################################################### -->
+
+    <!--
+    -->
+    <appender name="INTERNAL" class="ch.qos.logback.core.FileAppender">
+        <file>core.log</file>
+        <append>false</append>
+        <encoder>
+            <pattern>%date %-5level [%thread][%X{user:app}] %logger{35} - %msg %n</pattern>
+        </encoder>
+    </appender>
+
+
+    <!--
+        ** Toutes les traces **
+        Inclus les logs des différentes librairies embarquées par MXA
+    -->
+    <root level="TRACE">
+        <appender-ref ref="INTERNAL" />
+    </root>
+
+</configuration>
