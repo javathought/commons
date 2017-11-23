@@ -1,4 +1,4 @@
-package io.github.commons.dates
+package io.github.javathought.commons.dates
 
 import java.time.format.DateTimeFormatter
 import java.time.{DayOfWeek, LocalDate}

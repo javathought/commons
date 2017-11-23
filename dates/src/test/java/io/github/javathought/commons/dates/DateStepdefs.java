@@ -1,4 +1,4 @@
-package io.github.commons.dates;
+package io.github.javathought.commons.dates;
 
 import cucumber.api.java8.En;
 
