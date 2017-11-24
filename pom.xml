@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.github.javathought.commons</groupId>
-    <artifactId>commons</artifactId>
+    <artifactId>parent</artifactId>
     <packaging>pom</packaging>
     <version>1.1-SNAPSHOT</version>
     <name>${project.groupId}:${project.artifactId}</name>
