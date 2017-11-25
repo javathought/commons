@@ -6,10 +6,18 @@ env:
   - secure: VGD6ftrhT48aTwPeyMrz2W4ytYXzgQC2OHO1rm351qU54DQ1zabwNr/5e7Ns1PwPsx1lykDTz3nOR+1ilbO3RGJrxGN8ksWamTuuFZRTUp2DijTPHnBTmnqaVrC2sWbzCnRurYKk77C8NFACiBDTbOtRQjWOTvqnES8f7d2abYK14sqXVrIZEowHjKaeOoIrMTvF6ikJFlUY/+3Xq+cyZ3dpe8M+evrfIzuqNVnEo8XngX+aqRTcXBRBLsfskO4SZdC4TT+Dy4o5Msm+rEMSskzSOyBy/VZGORebCGoDTFKWJs9DrONmvwAZ2I037f3HyhyCuSyFZjFtmiHJJvor2Iz6OBA2y0pFOMCn5lqFEL8RYmtZlL/A3FcYtpiOPbDuuy2qQLSqnOqlzt3u3rPP+0fSzuc2Zs9+es2QlLM8Scqb0HWo8nErCrFePoqZK27/TsOhlICUgfrkMFwkK+H7ZgPt+EoixdZST4fZ0VgytxgprSHZVN5NfrclkucYJkqUUmF6NsNEa7rbtzUkNw2DBIrK7OmCu+N5fSQ5D0McNN17MytAXr9rJASmbclJmfYEc3aTPb048TCuNmXLf4CebV84Ba/TtdQhw4TbsElGjNNPR7e1MimPgSvrjoAFV3xbVzE44JZ9z0wcPORDumLzWgpv4SsV4hYjQQ7LHJPWu2U=
   - secure: BRzgnp0OR/VPq9Gumk5mQjA40Aj8dkIaHYzn0z8JrHDmuk9ATeCgBOI2sfzCF+0pueWnCipae+LFxMymKtUHmviLx0Cpdj5nAXSmJoonuUcrLuRZSHKELInhetzPqA7yaOwC+gqA5IQrV61FBm5NZHDLrJF9tvZooSFsvBmChJZyNw61+SICqzlg7nZPtdB7CbTau4mxLWaFCWK8M+RQ7kmefcLwjN9aBorN9W6FYXXzB8zBzwGu0Ivrm7LOHhpcPqZrP77Fra8kz6xfEidwFo0TYlEsLhsoyqzjcdb1/qzcuqCF0gEu/fPcYNJ7L1RZIwbk64ZbLRUTbTfCRuGaYD6hX9j0zXFCsH72Pouvoqz3dPpqbtoDoU49msqAj7zpkAsx+auk5/aDj+zaSU0fuP8zcgsyE2DblR+KV5LceNKwBELjrOKHn8EiLjGGgp4CeZlFpIpAmzvnvm8nE35BB3NEQsz74SUXuDdb/rqoK4Q67yH38NQkT00wOtWhwRHtxu9NKk0JZe6CL8gTEm5P6II7Qh+gke8JXnDGuvmyS2lvZhm2caph0Z4NrSVhG3ZwTUnmu4x8iYHO30MZskRVVIc6u5SaI98Y9OiJu8iD+E/PjL2tw2GOOtM3qGxGic/E5384fWsJb91DIJzAhljTyYhB39ntvVQ1vnrBEcJ66r0=
 
+before_install:
+  - sudo apt-get install jq
+  - wget -O ~/codacy-coverage-reporter-assembly-latest.jar $(curl https://api.github.com/repos/codacy/codacy-coverage-reporter/releases/latest | jq -r .assets[0].browser_download_url)
+
+script:
+  - mvn verify -B
+
 cache:
   directories:
     - ~/.m2/repository
 
 after_success:
+  - java -cp ~/codacy-coverage-reporter-assembly-latest.jar com.codacy.CodacyCoverageReporter -l Java -r $TRAVIS_BUILD_DIR/dates/target/site/jacoco/jacoco.xml
   - ./.travis/before-deploy.sh
   - ./.travis/deploy.sh
