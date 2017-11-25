@@ -18,6 +18,6 @@ cache:
     - ~/.m2/repository
 
 after_success:
-  - java -cp ~/codacy-coverage-reporter-assembly-latest.jar com.codacy.CodacyCoverageReporter -l Java -r $TRAVIS_BUILD_DIR/dates/target/site/jacoco/jacoco.xml
+  - java -cp ~/codacy-coverage-reporter-assembly-latest.jar com.codacy.CodacyCoverageReporter -l Scala -r $TRAVIS_BUILD_DIR/dates/target/site/jacoco/jacoco.xml
   - ./.travis/before-deploy.sh
   - ./.travis/deploy.sh
