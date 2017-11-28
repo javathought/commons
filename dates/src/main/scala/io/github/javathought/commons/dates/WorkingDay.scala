@@ -1,6 +1,7 @@
 package io.github.javathought.commons.dates
 
 import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 import java.time.{DayOfWeek, LocalDate}
 
 import org.slf4j.LoggerFactory
@@ -78,6 +79,31 @@ case class WorkingDay(date: LocalDate) {
 
 object WorkingDay {
   val dtFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern ("dd/MM/yyyy")
+
+
+  /**
+    * Calcule les jours travaillés sur une période
+    *
+    * @param deb date de début de la période
+    * @param fin date de fin de la période
+    * @return une séquence de jours travaillés
+    */
+
+  def between(deb: LocalDate, fin: LocalDate): Seq[WorkingDay] =
+    for {
+      d <- 0 to ChronoUnit.DAYS.between(deb, fin).toInt
+      w = WorkingDay(deb.plusDays(d)) if w.isWorking
+    } yield w
+
+  /**
+    * Calcule le nombre de jours par mois en tenant compte de la date de début dans le premier mois
+    * et de la date de fin dans le dernier mois
+    * @param days une séquence de jours (WorkingDay)
+    * @return le nombre de jours par mois
+    *
+    **/
+  def countByMonth(days: Seq[WorkingDay]): Map[LocalDate, Int] =
+    days groupBy { _.date.withDayOfMonth(1) } map { m => ( m._1, m._2.size)}
 
 }
 
