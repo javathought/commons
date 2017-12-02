@@ -43,3 +43,16 @@
         |02/01/2017|
         |04/05/2017|
         |05/05/2017|
+
+    Scénario:
+      Etant donné l'intervalle entre '01/11/2017' et '03/11/2017'
+      Et le nombre de jours ouvrés par mois est
+        | mois | nb |
+        | 11 | 2 |
+
+    Scénario:
+      Etant donné l'intervalle entre '31/10/2017' et '03/11/2017'
+      Et le nombre de jours ouvrés par mois est
+        | mois | nb |
+        | 10   | 1 |
+        | 11   | 2 |
