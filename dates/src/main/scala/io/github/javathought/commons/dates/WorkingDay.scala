@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory
   * Vérification des jours fériés
   */
 case class WorkingDay(date: LocalDate) {
-  val logger = LoggerFactory.getLogger(classOf[WorkingDay])
+  private val logger = LoggerFactory.getLogger(classOf[WorkingDay])
 
   def isWorking: Boolean = {
     date.getDayOfWeek match {
@@ -102,8 +102,10 @@ object WorkingDay {
     * @return le nombre de jours par mois
     *
     **/
-  def countByMonth(days: Seq[WorkingDay]): Map[LocalDate, Int] =
-    days groupBy { _.date.withDayOfMonth(1) } map { m => ( m._1, m._2.size)}
+  def countByMonth(days: Seq[WorkingDay]): Map[LocalDate, Int] = {
+    val daysByMonths = days groupBy { wDay => wDay.date.withDayOfMonth(1) }
+    daysByMonths map { case (month, days) => ( month, days.size)}
+  }
 
 }
 
